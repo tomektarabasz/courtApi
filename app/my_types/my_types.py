@@ -38,3 +38,17 @@ class MongoFile(BaseModel):
         json_encoders = {
             ObjectId: str
         }
+
+class CityEntity(BaseModel):
+    id: Optional[PyObjectId] = Field(alias='_id')
+    name:str
+    key: str
+    gmina:Optional[str]
+    powiat:Optional[str]
+    wojewodztwo:Optional[str]
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            ObjectId: str
+        }

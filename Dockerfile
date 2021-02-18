@@ -4,4 +4,4 @@ RUN apt-get update
 
 RUN pip install pymongo
 
-COPY ./main.py /app
+COPY ./app /app/app
