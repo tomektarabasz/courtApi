@@ -1,6 +1,6 @@
-from mongo_queries.mongo_queries import all_cities
-from my_types.my_types import CityEntity, File, MongoFile
-from helpers import connect_to_mongo_db
+from .mongo_queries.mongo_queries import all_cities
+from .my_types.my_types import CityEntity, File, MongoFile
+from .helpers import connect_to_mongo_db
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from typing import List, Optional
