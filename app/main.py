@@ -5,9 +5,22 @@ from fastapi import FastAPI
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from bson import ObjectId
+from fastapi.middleware.cors import CORSMiddleware
 
 client, db = connect_to_mongo_db()
 app = FastAPI()
+origins = [
+    "https://localhost:4200",
+    "http://localhost:4200"
+    ]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def index():
