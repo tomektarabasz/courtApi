@@ -1,7 +1,8 @@
-from .mongo_queries.mongo_queries import all_cities
-from .my_types.my_types import CityEntity, File, MongoFile
+from starlette.routing import request_response
+from .mongo_queries.mongo_queries import all_cities, find_city_by_query, find_court_by_city_id
+from .my_types.my_types import CityEntity, File, CourtEntity
 from .helpers import connect_to_mongo_db
-from fastapi import FastAPI
+from fastapi import FastAPI, params
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from bson import ObjectId
@@ -28,6 +29,14 @@ def index():
 @app.get("/all", response_model=List[CityEntity])
 def prezent_all():
     return all_cities(db)
+
+@app.get("/{cityName}", response_model=List[CityEntity])
+def find_city(cityName):
+    return find_city_by_query(db,cityName)
+
+@app.get("/court/{cityId}", response_model=List[CourtEntity])
+def find_court(cityId):
+    return find_court_by_city_id(db,cityId)
 
 # @app.post("/add/")
 # def add_file(file: File):

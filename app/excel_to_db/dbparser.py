@@ -16,7 +16,7 @@ def writeMongoCommand(listaCommand):
 
 
 court_name = "TT"
-s = "Sąd Rejonowy w Wysokiem Mazowieckiem	dla miasta Wysokie Mazowieckie oraz gmin: Ciechanowiec, Czyżew, Klukowo, Kobylin-Borzymy, Kulesze Kościelne, Nowe Piekuty, Sokoły, Szepietowo i Wysokie Mazowieckie"
+s = "Sąd Rejonowy w Wysokiem Mazowieckiem dla miasta Skarżysko-Kamienna oraz gmin: Bliżyn, Łączna, Skarżysko Kościelne i Suchedniów"
 
 def takeBiggerIndex(index, list_of_indexes):
     for item in list_of_indexes:
@@ -91,7 +91,7 @@ def createObjToInsert(s):
 from random import randint
 from pymongo import MongoClient
 
-client = MongoClient("172.17.0.2", 27017)
+client = MongoClient("192.168.1.143", 27017)
 
 db = client.dbs
 def createInputToMongoDb():
@@ -105,6 +105,22 @@ def createInputToMongoDb():
     writeMongoCommand(arrayWithCommands)
     pass
 
-createInputToMongoDb()
-print(createObjToInsert(s))
+# createInputToMongoDb()
+# print(createObjToInsert(s))
 
+def createCourtCollection():
+    for i,line in enumerate(readFile()):
+        # print(line)
+        index = line.find(";")
+        court_name = line[:index]
+        wlasciwosc = line[index+5:]
+        print(court_name)
+        print(wlasciwosc)
+        db.court.update_one({"name":court_name},{"$set":{"coverArea":wlasciwosc}})
+
+
+        # if(i>10):
+        #     return "koniec"
+    pass
+
+createCourtCollection()

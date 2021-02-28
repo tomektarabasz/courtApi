@@ -25,13 +25,24 @@ class PyObjectId(ObjectId):
     def __modify_schema__(cls, field_schema):
         field_schema.update(type='string')
 
-class MongoFile(BaseModel):
+# class CourtEntity(BaseModel):
+#     id: Optional[PyObjectId] = Field(alias='_id')
+#     name:str
+#     level: str
+#     coverCitys:Optional[List[str]]
+#     coverRegions:Optional[List[str]]
+#     coverCityParts:Optional[List[str]]
+
+#     class Config:
+#         arbitrary_types_allowed = True
+#         json_encoders = {
+#             ObjectId: str
+#         }
+
+class CourtEntity(BaseModel):
     id: Optional[PyObjectId] = Field(alias='_id')
     name:str
-    level: str
-    coverCitys:Optional[List[str]]
-    coverRegions:Optional[List[str]]
-    coverCityParts:Optional[List[str]]
+    coverArea:Optional[str]
 
     class Config:
         arbitrary_types_allowed = True

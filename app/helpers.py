@@ -31,6 +31,6 @@ def readFile(path):
 
 from pymongo import MongoClient
 def connect_to_mongo_db():
-    client = MongoClient("172.17.0.2", 27017)
+    client = MongoClient("192.168.1.143", 27017)
     db = client.dbs
     return [client,db]
