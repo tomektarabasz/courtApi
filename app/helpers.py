@@ -29,6 +29,7 @@ def readFile(path):
         for line in file.readlines():
             yield line
 
+from app.mongo_queries.mongo_queries import statistic_info
 from pymongo import MongoClient
 def connect_to_mongo_db():
     client = MongoClient("192.168.1.143", 27017)

@@ -112,7 +112,7 @@ def createCourtCollection():
     for i,line in enumerate(readFile()):
         # print(line)
         index = line.find(";")
-        court_name = line[:index]
+        court_name = line[:index-1]
         wlasciwosc = line[index+5:]
         print(court_name)
         print(wlasciwosc)

@@ -1,5 +1,6 @@
+from starlette.requests import Request
 from starlette.routing import request_response
-from .mongo_queries.mongo_queries import all_cities, find_city_by_query, find_court_by_city_id
+from .mongo_queries.mongo_queries import all_cities, find_city_by_city_id, find_city_by_query, find_court_by_city_id, statistic_info
 from .my_types.my_types import CityEntity, File, CourtEntity
 from .helpers import connect_to_mongo_db
 from fastapi import FastAPI, params
@@ -27,16 +28,25 @@ def index():
     return({"id":"This is incrediable"})
 
 @app.get("/all", response_model=List[CityEntity])
-def prezent_all():
+def prezent_all(request:Request):
+    statistic_info(db,ip_adress=request.client.host, url="/all")
     return all_cities(db)
 
 @app.get("/{cityName}", response_model=List[CityEntity])
-def find_city(cityName):
+def find_city(cityName, request:Request):
+    statistic_info(db,ip_adress=request.client.host, queryCityName=cityName, url="/{cityName}")
     return find_city_by_query(db,cityName)
 
+@app.get("/city/{cityId}", response_model=CityEntity)
+def find_court(cityId, request:Request):
+    statistic_info(db,ip_adress=request.client.host,cityId=cityId,url="/city/{cityId}")
+    return find_city_by_city_id(db,cityId)    
+
 @app.get("/court/{cityId}", response_model=List[CourtEntity])
-def find_court(cityId):
+def find_court(cityId, request:Request):
+    statistic_info(db,ip_adress=request.client.host,cityId=cityId,url="/court/{cityId}")
     return find_court_by_city_id(db,cityId)
+
 
 # @app.post("/add/")
 # def add_file(file: File):
