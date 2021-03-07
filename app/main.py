@@ -1,6 +1,5 @@
 from starlette.requests import Request
-from starlette.routing import request_response
-from .mongo_queries.mongo_queries import all_cities, find_city_by_city_id, find_city_by_query, find_court_by_city_id, statistic_info
+from .mongo_queries.mongo_queries import statistic_info, all_cities, find_city_by_city_id, find_city_by_query, find_court_by_city_id
 from .my_types.my_types import CityEntity, File, CourtEntity
 from .helpers import connect_to_mongo_db
 from fastapi import FastAPI, params

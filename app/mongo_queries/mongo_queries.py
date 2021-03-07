@@ -1,8 +1,20 @@
+from app.helpers import split_string_of_cover_area
 from datetime import datetime
 from bson.objectid import ObjectId
 import json
 
-from pymongo.pool import is_ip_address
+def statistic_info(db_ctx, ip_adress, **kwargs):
+    now = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+    json_ip_adress = json.dumps(ip_adress)
+    ip_user = db_ctx.ip_statistic.find_one({"ip_adress":json_ip_adress})
+    json_kwargs = json.dumps({**kwargs})
+    if(ip_user):
+        db_ctx.ip_statistic.update_one({"ip_adress":ip_adress},{"$push":{"requests":{"time":now,"params":json_kwargs}}})
+    else:
+        db_ctx.ip_statistic.insert_one({"ip_adress":ip_adress,"requests":[{"time":now,"params":json_kwargs}]})
+    print(ip_adress)
+    print(ip_user)
+    return ip_user
 
 def all_cities(db_ctx):
     all_cities=[]
@@ -30,23 +42,14 @@ def find_court_by_city_id(db_ctx, city_id):
     if(courts):
         for court in courts:
             coverArea = court["coverArea"]
-                
-        all_courts.append(court)
+            splited_strings_array=split_string_of_cover_area(coverArea)
+            city_prop = splited_strings_array["city"]
+            city_area = splited_strings_array["city_area"]
+            gmina = splited_strings_array["gmina"]
+            if(city_prop.find(city["name"])>=0 or gmina.find(city["gmina"])>=0):
+                all_courts.append(court)
     print(all_courts)
     return all_courts
-
-def statistic_info(db_ctx, ip_adress, **kwargs):
-    now = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
-    json_ip_adress = json.dumps(ip_adress)
-    ip_user = db_ctx.ip_statistic.find_one({"ip_adress":json_ip_adress})
-    json_kwargs = json.dumps({**kwargs})
-    if(ip_user):
-        db_ctx.ip_statistic.update_one({"ip_adress":ip_adress},{"$push":{"requests":{"time":now,"params":json_kwargs}}})
-    else:
-        db_ctx.ip_statistic.insert_one({"ip_adress":ip_adress,"requests":[{"time":now,"params":json_kwargs}]})
-    print(ip_adress)
-    print(ip_user)
-    return ip_user
 
 # def find_city_or_region(query_text,db,collection):
     
