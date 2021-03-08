@@ -20,6 +20,7 @@ origins = [
     "http://89.65.210.136/*",
     "http://89.65.210.136:*",
     "http://89.65.210.136:8000",
+    "*",
     ]
 app.add_middleware(
     CORSMiddleware,
