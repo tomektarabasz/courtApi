@@ -12,7 +12,12 @@ client, db = connect_to_mongo_db()
 app = FastAPI()
 origins = [
     "https://localhost:4200",
-    "http://localhost:4200"
+    "http://localhost:4200",
+    "http://192.168.1.143:8000",
+    "http://192.168.1.17:4200",
+    "http://192.168.1.17:80",
+    "http://192.168.1.17:8000",
+    "http://89.65.210.136",
     ]
 app.add_middleware(
     CORSMiddleware,
