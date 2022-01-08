@@ -91,7 +91,8 @@ def createObjToInsert(s):
 from random import randint
 from pymongo import MongoClient
 
-client = MongoClient("192.168.1.143", 27017)
+# client = MongoClient("192.168.1.143", 27017)
+client = MongoClient("172.17.0.2", 27017)
 
 db = client.dbs
 def createInputToMongoDb():
@@ -112,12 +113,12 @@ def createCourtCollection():
     for i,line in enumerate(readFile()):
         # print(line)
         index = line.find(";")
-        court_name = line[:index-1]
+        court_name = line[:index]
         wlasciwosc = line[index+5:]
         print(court_name)
         print(wlasciwosc)
-        db.court.update_one({"name":court_name},{"$set":{"coverArea":wlasciwosc}})
-
+        updateResult=db.court.update_one({"name":court_name},{"$set":{"coverArea":wlasciwosc}})
+        print(updateResult)
 
         # if(i>10):
         #     return "koniec"

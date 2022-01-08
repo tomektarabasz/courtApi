@@ -51,5 +51,23 @@ def find_court_by_city_id(db_ctx, city_id):
     print(all_courts)
     return all_courts
 
-# def find_city_or_region(query_text,db,collection):
+def check_nick_availablity_db(db_ctx, nick):
+    for users in db_ctx.users.find({"nick":nick}).limit(1):
+        return(False)
+    return True
+
+def update_user_keytrack_id(db_ctx, nick,keyTrackId):
+    query_result = db_ctx.users.update_one({"nick":nick},{"$push":{"keyTrackId":keyTrackId}})
+    isUpadated = query_result.acknowledged
+    return isUpadated
+
+def create_user_db(db_ctx, nick,keyTrackId,password,samples):
+    query_result = db_ctx.users.insert_one({"nick":nick, "keyTrackId":keyTrackId, "password":password, "samples":samples})
+    isUpadated = query_result.acknowledged
+    return isUpadated
+
+def find_user_id_db(db_ctx, nick):
+    for user in db_ctx.users.find({"nick":nick}).limit(1):
+        return(user)
+    return None
     

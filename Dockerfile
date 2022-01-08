@@ -1,6 +1,6 @@
 FROM python:3.7
 
-RUN pip install fastapi uvicorn pymongo
+RUN pip install fastapi uvicorn pymongo requests
 
 EXPOSE 80
 

@@ -63,3 +63,49 @@ class CityEntity(BaseModel):
         json_encoders = {
             ObjectId: str
         }
+
+class CheckNickNameResponse(BaseModel):
+    isNickAvailable:bool = False
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            ObjectId: str
+        }
+
+class UserCreationResponse(BaseModel):
+    isCreated:bool = False
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            ObjectId: str
+        }
+
+class CreateUserRequest(BaseModel):
+    nick:str
+    password:str
+    sample:List[str]
+
+class CheckUserIdentityResponse(BaseModel):
+    authenticated:bool = False
+    score:int = 0
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            ObjectId: str
+        }
+
+class CheckUserIdentity(CreateUserRequest):
+    pass
+
+class UserEntity(BaseModel):
+    id: Optional[PyObjectId] = Field(alias='_id')
+    nick:str
+    keyTrackId:str
+    password:str
+    samples:Optional[str]
+
+    class Config:
+        arbitrary_types_allowed = True
+        json_encoders = {
+            ObjectId: str
+        }
